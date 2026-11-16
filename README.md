@@ -6,7 +6,7 @@ Fonctionne dans Google Colab (gratuit, avec GPU).
 ## Utilisation
 1. Ouvrir `clipper.ipynb` dans Google Colab.
 2. Exécution → Modifier le type d'exécution → **GPU T4**.
-3. Coller le lien YouTube dans le champ YOUTUBE_URL de la cellule ②, puis Exécution → Tout exécuter.
+3. Exécution → Tout exécuter, puis coller le lien YouTube dans la case qui apparaît sous la cellule ② et appuyer sur Entrée.
 
 ## Avancement
 - [x] Jour 1 : téléchargement + transcription horodatée
