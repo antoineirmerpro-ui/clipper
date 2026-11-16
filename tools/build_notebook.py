@@ -86,7 +86,7 @@ else:
 """),
 md("## ④ Transcription (≈ 1 à 3 minutes pour 10 minutes de vidéo avec le GPU)"),
 code("""
-import json, torch
+import json, subprocess, torch
 from faster_whisper import WhisperModel
 
 # Avec le GPU : modèle le plus précis. Sans GPU : modèle plus léger (plus lent et moins précis).
@@ -96,7 +96,15 @@ else:
     print("⚠️ Pas de GPU : active-le (Exécution → Modifier le type d'exécution → GPU T4) pour aller beaucoup plus vite.")
     model = WhisperModel("small", device="cpu", compute_type="int8")
 
-segments_iter, info = model.transcribe(VIDEO_PATH, word_timestamps=True, vad_filter=True)
+# Extraction du son avec ffmpeg (16 kHz, mono) : évite l'incompatibilité de PyAV dans Colab
+import numpy as np
+raw_audio = subprocess.run(
+    ["ffmpeg", "-nostdin", "-loglevel", "error", "-i", VIDEO_PATH,
+     "-f", "f32le", "-ac", "1", "-ar", "16000", "-"],
+    capture_output=True, check=True).stdout
+audio = np.frombuffer(raw_audio, dtype=np.float32)
+
+segments_iter, info = model.transcribe(audio, word_timestamps=True, vad_filter=True)
 print(f"Langue détectée : {info.language}")
 
 segments = []
