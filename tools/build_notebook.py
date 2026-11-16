@@ -14,7 +14,7 @@ md("""
 
 **Mode d'emploi**
 1. Menu **Exécution → Modifier le type d'exécution → GPU T4** → Enregistrer (une seule fois).
-2. Colle ton lien YouTube dans la cellule ② (entre les guillemets).
+2. Colle ton lien YouTube dans le champ **YOUTUBE_URL** de la cellule ②.
 3. Menu **Exécution → Tout exécuter**.
 4. À la fin, la transcription s'affiche avec les minutages.
 
@@ -29,9 +29,15 @@ print("✅ Outils installés" if shutil.which("ffmpeg") else "❌ ffmpeg introuv
 """),
 md("## ② Ton lien YouTube"),
 code("""
-YOUTUBE_URL = ""  # ← colle ton lien ici, ex. "https://www.youtube.com/watch?v=..."
+# @title Colle ton lien YouTube dans le champ à droite 👉
+YOUTUBE_URL = ""  # @param {type:"string"}
 
-# Laisse vide le lien ci-dessus pour déposer toi-même un fichier vidéo (solution de secours)
+# Laisse le champ vide pour déposer toi-même un fichier vidéo (solution de secours)
+YOUTUBE_URL = YOUTUBE_URL.strip().strip('"').strip("'")
+if YOUTUBE_URL.startswith("http"):
+    print(f"✅ Lien reçu : {YOUTUBE_URL}")
+else:
+    print("⚠️ Aucun lien reçu : tu devras déposer un fichier vidéo à l'étape ③.")
 """),
 md("## ③ Téléchargement de la vidéo"),
 code("""
